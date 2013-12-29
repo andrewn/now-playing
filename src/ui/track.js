@@ -6,7 +6,7 @@ module.exports = function (pubsub, container) {
            '<p>'  + track.get('artist') + '</p>';
   }
 
-  pubsub.subscribe('track.new', function (track) {
+  pubsub.subscribe('station.playing', function (track) {
     $container.innerHTML = render(track);
   });
 }
