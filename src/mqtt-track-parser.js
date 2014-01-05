@@ -1,11 +1,8 @@
+var log = require('./util/logging').createLogger('mqtt-track-parser');
+
 module.exports = function (pubsub) {
 
   var Track = require('./model/track');
-
-  function log(/* messages */) {
-    var args = Array.prototype.slice.call(arguments, 0);
-    console.log.apply(console, ['mqtt-track-parser'].concat(args));
-  }
 
   function stationIdFrom(topic) {
     var matcher = new RegExp('bbc/nowplaying/(.*)'),

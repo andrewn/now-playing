@@ -1,9 +1,6 @@
-module.exports = function (pubsub, opts) {
-  function log(/* messages */) {
-    var args = Array.prototype.slice.call(arguments, 0);
-    console.log.apply(console, ['mqtt-client'].concat(args));
-  }
+var log = require('./util/logging').createLogger('mqtt-client');
 
+module.exports = function (pubsub, opts) {
   var RECONNECT_INTERVAL_FAST = 2000,
       RECONNECT_INTERVAL_SLOW = 10000;
 
