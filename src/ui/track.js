@@ -54,17 +54,22 @@ module.exports = function (pubsub, container, config) {
     var r = parseInt(hexcolor.substr(0,2),16);
     var g = parseInt(hexcolor.substr(2,2),16);
     var b = parseInt(hexcolor.substr(4,2),16);
-    return contrastRgb(r, g, b);
+    return contrastRgb([r, g, b]);
   }
 
-  function contrastRgb(r, g, b){
-    if (arguments.length == 1 && r.length >= 3) {
-      var r = r[0],
-          g = r[1],
-          b = r[2];
-    }
+  /*
+    Returns black or white
+  */
+  function contrastRgb(rgb){
+    var BLACK = [0,0,0],
+        WHITE = [255,255,255];
+
+    var r = rgb[0],
+        g = rgb[1],
+        b = rgb[2];
+        
     var yiq = ((r*299)+(g*587)+(b*114))/1000;
-    return (yiq >= 128) ? 'black' : 'white';
+    return (yiq >= 128) ? BLACK : WHITE;
   }
 
   function randomFromInterval(from,to) {
@@ -79,9 +84,9 @@ module.exports = function (pubsub, container, config) {
     ];
   }
 
-  function cssText(col) {
-    log('cssText', col);
-    return (typeof col === 'string') ? col : 'rgb(' + col.join(',') + ')';
+  function cssText(rgb) {
+    log('cssText', rgb);
+    return 'rgb(' + rgb.join(',') + ')';
   }
 
   function setColoursForImage(image) {
@@ -113,6 +118,7 @@ module.exports = function (pubsub, container, config) {
       log('no image');
       var col = randColRgb();
       var contrast = contrastRgb(col);
+      log('col, contrast', col, contrast);
       document.body.style.backgroundColor = cssText(col);
       $container.style.color = cssText(contrast);
     }
