@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+var express    = require('express'),
+    browserify = require('browserify-middleware'),
+    url        = require('url'),
+    proxy      = require('proxy-middleware');
+
+var app     = express(),
+    dirname = __dirname + '/..',
+    port    = process.env.PORT || 3000;
+
+console.log('dirname', dirname);
+
+app.get('/dist/app-bundle.js', browserify(dirname + '/src/app.js'));
+
+app.use('/ichef', proxy(url.parse('http://ichef.bbci.co.uk/')));
+
+app.use(express.static(dirname));
+
+app.listen(port);
+
+console.log('Listening on ' + port);

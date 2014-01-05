@@ -8,6 +8,20 @@ Track.create = function (json) {
 
 Track.prototype = {
   /*
+    image
+    Returns the first contributor image_pid 
+    `p01g3wpc.jpg` component, or null if nothing 
+    found
+  */
+  image: function () {
+    var contributions = this.get('contributions');
+    if (contributions && contributions.length > 0) {
+      return contributions[0].image_pid;
+    } else {
+      return null;
+    }
+  },
+  /*
     get
     Fetch a value from the track. If a method
     is available on the track object, it will
@@ -16,7 +30,7 @@ Track.prototype = {
     object
   */
   get: function (key) {
-    if (this[key] && typeof this[key] == 'functoon') {
+    if (this[key] && typeof this[key] == 'function') {
       return this[key]();
     } else if (this[key]) {
       return this[key];
